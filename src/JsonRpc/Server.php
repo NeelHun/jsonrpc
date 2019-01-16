@@ -245,20 +245,20 @@ class Server
 					$argName = $arg->getName();
 
 					if (array_key_exists($argName, $named)) {
-						$params[] = $named[$argName];
+						$params[$argName] = $named[$argName];
 						unset($named[$argName]);
 					} else {
 						if (!$arg->isOptional()) {
 							$res = false;
 							break;
 						} else {
-							$params[] = $arg->getDefaultValue();
+							$params[$argName] = $arg->getDefaultValue();
 						}
 					}
 
 				}
 
-				if ($extra = array_values($named)) {
+				if ($extra = $named) {
 					$params = array_merge($params, $extra);
 				}
 
@@ -279,7 +279,7 @@ class Server
 	private function getParams($params) {
 
 		if (is_object($params)) {
-			$params = array_values((array)$params);
+			$params = (array)$params;
 		} elseif (is_null($params)) {
 			$params = array();
 		}
